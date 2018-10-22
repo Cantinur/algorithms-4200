@@ -1,38 +1,67 @@
-public class Quicksort{
-    public <T extends Coparable<T>> void sort(T[] array){
-        if(array == null){return;}
+public class Quicksort {
+    public int count = 0;
+
+    public <T extends Comparable<T>> void sort(T[] array){
+        if (array == null){return;}
         quicksort(0, array.length-1, array);
     }
 
-    private void quicksort(int low, int high, T[] array){
+    private <T extends Comparable<T>> void quicksort(int low, int high, T[] array){
+        if (low >= high){return;}
+
         int i = low;
         int j = high;
-        int piv = low + (high-low)/2;
+        String current = "";
+        for (int k = i; k <= j; k++){
+            current = current + "["+ array[k] + "]";
+        }
+        System.out.println("*******Current Array******");
+        System.out.println(current);
 
-        while(i <= j){
-            while (array[i].compareTo(piv) < 0){
+        T pivot = array[low + (high - low)/2];
+
+        System.out.println("PIVOT: " + pivot);
+
+        while (i <= j){
+
+            while(array[i].compareTo(pivot) < 0){
                 i++;
             }
 
-            while (array[j].compareTo(piv) > 0){
+            while (array[j].compareTo(pivot) > 0){
                 j--;
             }
 
             if(i <= j){
+                count++;
                 T temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
                 i++;
                 j--;
-            }
-        }
 
-        if (j > low){
-            quicksort(low, j, array);
+                System.out.println("--------------------");
+                for(int k = 0; k < array.length; k++){
+                    String print = "";
+                    if (array[k].compareTo(array[i-1]) == 0){
+                        print = "-> [" + array[k] + "]";
+                    }else if (array[k].compareTo(array[j+1]) == 0){
+                        print = "-> [" + array[k] + "]";
+                    }else {
+                        print = "[" + array[k] + "]";
+                    }
+                    System.out.println(print);
+                }
+                System.out.println("--------------------");
+            }
         }
 
         if (i < high){
             quicksort(i, high, array);
+        }
+
+        if (j > low){
+            quicksort(low, j, array);
         }
     }
 }
